@@ -15,6 +15,13 @@ const store = {
   set: (key, value) => localStorage.setItem(`kw:${key}`, JSON.stringify(value)),
   remove: (key) => localStorage.removeItem(`kw:${key}`),
 }
+// The playground reports only the editable lines, never the hidden imports and tests. So we save just that
+// region and splice it back into the full starter file on load. (Tolerates a full file too.)
+const REGION = /^([ \t]*\/\/sampleStart\n)([\s\S]*?)(^[ \t]*\/\/sampleEnd)/m
+const regionOf = (code) => (REGION.test(code) ? code.match(REGION)[2] : code)
+const withRegion = (starter, region) =>
+  starter.replace(REGION, (_, start, __, end) => start + region.replace(/\n*$/, '\n') + end)
+
 const isDone = (id) => store.get('done', {})[id] === true
 const markDone = (id) => { store.set('done', { ...store.get('done', {}), [id]: true }); renderSidebar() }
 
@@ -104,7 +111,7 @@ function renderExercise(ex, index) {
     status.className = 'status'
     const pg = playgroundFor(code, {
       junit: true,
-      onChange: (current) => store.set(`code:${ex.id}`, current),
+      onChange: (current) => store.set(`code:${ex.id}`, regionOf(current)),
       onTestPassed: () => {
         status.className = 'status pass'
         status.textContent = '✓ All tests passed. Nice work!'
@@ -150,7 +157,7 @@ function renderExercise(ex, index) {
            : el('a', { className: 'btn primary', href: '#/', textContent: 'Finished! Back to start' })),
   )
   pending.forEach((mount) => mount())
-  mountEditor(savedCode ?? ex.starter)
+  mountEditor(savedCode === null ? ex.starter : withRegion(ex.starter, regionOf(savedCode)))
   window.scrollTo(0, 0)
 }
 
