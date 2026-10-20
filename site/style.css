@@ -1,0 +1,97 @@
+:root {
+  --bg: #fff;
+  --fg: #1d1d1f;
+  --muted: #6b7280;
+  --line: #e5e7eb;
+  --accent: #7f52ff; /* Kotlin purple */
+  --ok: #16a34a;
+  --py: #3776ab;
+  --code-bg: #f6f7f9;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  display: flex;
+  min-height: 100vh;
+  font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: var(--fg);
+  background: var(--bg);
+}
+a { color: var(--accent); }
+code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.9em; }
+:not(pre) > code { background: var(--code-bg); padding: 0.1em 0.35em; border-radius: 4px; }
+
+#sidebar {
+  width: 280px;
+  flex: none;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 20px;
+  border-right: 1px solid var(--line);
+  background: #fafafa;
+}
+#sidebar h1 { font-size: 20px; line-height: 1.25; margin: 0 0 14px; }
+#sidebar h1 a { color: inherit; text-decoration: none; }
+#progress { height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; }
+#progress-bar { height: 100%; width: 0; background: var(--ok); transition: width 0.3s; }
+#progress-text { margin: 6px 0 14px; font-size: 13px; color: var(--muted); }
+#toc h2 { font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 18px 0 6px; }
+#toc a {
+  display: flex;
+  gap: 8px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  color: var(--fg);
+  text-decoration: none;
+  font-size: 14px;
+}
+#toc a:hover { background: #eee; }
+#toc a.current { background: #ede9fe; color: #4c1d95; font-weight: 600; }
+#toc a .mark { width: 16px; flex: none; color: var(--ok); }
+button.link { background: none; border: 0; padding: 0; margin-top: 24px; color: var(--muted); font-size: 12px; cursor: pointer; text-decoration: underline; }
+
+#content { flex: 1; min-width: 0; max-width: 960px; padding: 32px 48px 80px; }
+#content h1 { margin-top: 0; font-size: 30px; }
+#content h2 { margin-top: 36px; font-size: 22px; }
+.crumb { color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+pre { background: var(--code-bg); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; overflow-x: auto; margin: 12px 0; }
+pre code { background: none; padding: 0; }
+
+/* Python and Kotlin snippets shown side by side */
+.compare { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; }
+.compare pre { margin: 0; position: relative; padding-top: 28px; }
+.compare pre::before { position: absolute; top: 6px; left: 12px; font: 600 11px/1 -apple-system, sans-serif; letter-spacing: 0.06em; text-transform: uppercase; }
+.compare pre.py { border-top: 3px solid var(--py); }
+.compare pre.py::before { content: "Python"; color: var(--py); }
+.compare pre.kt { border-top: 3px solid var(--accent); }
+.compare pre.kt::before { content: "Kotlin"; color: var(--accent); }
+@media (max-width: 800px) { .compare { grid-template-columns: 1fr; } body { flex-direction: column; } #sidebar { position: static; width: auto; height: auto; } }
+
+.task { border-left: 4px solid var(--accent); background: #faf8ff; padding: 4px 16px; border-radius: 0 8px 8px 0; }
+.editor { margin: 16px 0; }
+.status { margin: 12px 0; padding: 10px 14px; border-radius: 8px; font-weight: 600; display: none; }
+.status.pass { display: block; background: #dcfce7; color: #14532d; }
+.status.fail { display: block; background: #fee2e2; color: #7f1d1d; }
+
+.actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 12px 0; }
+button.btn, a.btn {
+  font: inherit; font-size: 14px; padding: 6px 14px; border-radius: 6px; cursor: pointer; text-decoration: none;
+  border: 1px solid var(--line); background: #fff; color: var(--fg);
+}
+button.btn:hover, a.btn:hover { background: #f3f4f6; }
+a.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+a.btn.primary:hover { background: #6a3fe0; }
+details { margin: 10px 0; }
+summary { cursor: pointer; color: var(--muted); }
+.hint { margin: 8px 0; padding: 8px 12px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; }
+.nav { display: flex; justify-content: space-between; margin-top: 40px; }
+
+/* Welcome page */
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; margin: 20px 0; }
+.card { border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; }
+.card h3 { margin: 0 0 6px; font-size: 15px; }
+.card ul { margin: 0; padding-left: 18px; font-size: 14px; color: var(--muted); }
