@@ -4,6 +4,7 @@
 //   ---
 //   title: ...
 //   section: ...
+//   hidden: true       (optional: keep the file and verify it, but leave it out of the site)
 //   ---
 //   lesson markdown (plain ```python / ```kotlin blocks are shown side by side)
 //   ```kotlin run      -> runnable snippet (must contain fun main)
@@ -53,6 +54,7 @@ export function parseExercise(file) {
     id: file.replace(/\.md$/, ''),
     title: meta.title,
     section: meta.section,
+    hidden: meta.hidden === 'true',
     lesson: lesson.trim(),
     task: task.trim(),
     runs,
@@ -71,7 +73,7 @@ export function loadExercises() {
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  const exercises = loadExercises()
+  const exercises = loadExercises().filter((e) => !e.hidden)
   writeFileSync(join(root, 'site', 'exercises.js'), `window.EXERCISES = ${JSON.stringify(exercises, null, 1)};\n`)
   console.log(`Built ${exercises.length} exercises -> site/exercises.js`)
 }

@@ -3,6 +3,7 @@ window.EXERCISES = [
   "id": "01-hello-kotlin",
   "title": "Hello, Kotlin",
   "section": "Basics",
+  "hidden": false,
   "lesson": "Kotlin is statically typed: every function declares its parameter and return types, and the compiler checks them (think `mypy --strict`, but enforced). Blocks use `{ }` instead of indentation, and semicolons are optional.\n\n```python\ndef add(a: int, b: int) -> int:\n    return a + b\n```\n```kotlin\nfun add(a: Int, b: Int): Int {\n    return a + b\n}\n```\n\nTypes come **after** the name (`a: Int`), like Python annotations. When a function is a single expression you can drop the braces and `return`, and Kotlin infers the return type:\n\n```python\ndef double(x): return x * 2\n```\n```kotlin\nfun double(x: Int) = x * 2\n```\n\nEvery program starts at `main`, like `if __name__ == \"__main__\"`. Press the play button to run this one:\n\n<div class=\"run-slot\" data-run=\"0\"></div>",
   "task": "Implement both functions. `TODO()` is a placeholder that throws, which is why the tests fail until you replace it. Press **Run** under the editor to check your work.",
   "runs": [
@@ -20,6 +21,7 @@ window.EXERCISES = [
   "id": "02-val-var-types",
   "title": "val, var and types",
   "section": "Basics",
+  "hidden": false,
   "lesson": "Python has one kind of variable. Kotlin has two: `val` (read-only, assigned once) and `var` (reassignable). Prefer `val`: you will see it almost everywhere in real Kotlin code.\n\n```python\nname = \"Ada\"\ncount = 0\ncount += 1\n```\n```kotlin\nval name = \"Ada\"   // can't be reassigned\nvar count = 0      // can\ncount += 1\n```\n\nYou rarely write types on local variables: the compiler infers them (`count` is an `Int`). But the types are fixed. This fails to compile: `count = \"one\"`.\n\nNumbers need more care than in Python. `Int` and `Double` are different types, and Kotlin **never converts between them silently**. Convert explicitly:\n\n```python\nratio = 3 / 4          # 0.75\nwhole = 3 // 4         # 0\n```\n```kotlin\nval whole = 3 / 4                  // 0, Int / Int is integer division\nval ratio = 3.toDouble() / 4       // 0.75\n```\n\n<div class=\"run-slot\" data-run=\"0\"></div>",
   "task": "1. `percent(part, total)` returns what percentage `part` is of `total`, as a `Double`. Careful: integer division would give `0` for `percent(1, 4)`.\n2. `isEven(n)` returns `true` for even numbers. Use `%`.",
   "runs": [
@@ -37,6 +39,7 @@ window.EXERCISES = [
   "id": "03-strings",
   "title": "String templates",
   "section": "Basics",
+  "hidden": false,
   "lesson": "Kotlin's answer to f-strings: put `$name` or `${expression}` straight into a normal string. No `f` prefix needed.\n\n```python\nname, age = \"Ada\", 36\nf\"{name} is {age}, next year {age + 1}\"\n```\n```kotlin\nval name = \"Ada\"; val age = 36\n\"$name is $age, next year ${age + 1}\"\n```\n\nTriple-quoted strings exist too (`\"\"\"...\"\"\"`), but they are **raw**: no escape sequences, and templates still work. They are handy for JSON, SQL and regexes. Use `.trimIndent()` to strip the shared leading whitespace.\n\n```python\nsql = \"\"\"\n    SELECT * FROM users\n\"\"\"\n```\n```kotlin\nval sql = \"\"\"\n    SELECT * FROM users\n\"\"\".trimIndent()\n```\n\n<div class=\"run-slot\" data-run=\"0\"></div>",
   "task": "1. `summary(name, age)` returns `\"Ada is 36, next year 37\"` style text.\n2. `jsonOf(name)` returns the JSON text `{\"name\": \"Ada\"}`. Use a raw string so you don't need to escape the quotes.",
   "runs": [
@@ -54,6 +57,7 @@ window.EXERCISES = [
   "id": "04-default-named-args",
   "title": "Default and named arguments",
   "section": "Basics",
+  "hidden": false,
   "lesson": "Defaults and keyword arguments work almost exactly like Python. The difference: in Kotlin **any** parameter can be passed by name (no `*` marker needed), and there is no `**kwargs`. Instead you use overloads and defaults.\n\n```python\ndef greet(name, greeting=\"Hello\", punctuation=\"!\"):\n    return f\"{greeting}, {name}{punctuation}\"\n\ngreet(\"Ada\", punctuation=\"?\")\n```\n```kotlin\nfun greet(name: String, greeting: String = \"Hello\", punctuation: String = \"!\") =\n    \"$greeting, $name$punctuation\"\n\ngreet(\"Ada\", punctuation = \"?\")\n```\n\nThe standard library uses this heavily. For example `joinToString` has `separator`, `prefix`, `postfix`, `limit`... all with defaults:\n\n<div class=\"run-slot\" data-run=\"0\"></div>",
   "task": "1. Implement `greet` with the defaults shown above.\n2. `joinOptions(options)` should return the items as `\"[a, b]\"`: use `joinToString` with named `prefix` and `postfix` arguments.",
   "runs": [
@@ -71,6 +75,7 @@ window.EXERCISES = [
   "id": "05-if-when",
   "title": "if and when are expressions",
   "section": "Basics",
+  "hidden": false,
   "lesson": "In Kotlin, `if` and `when` **return a value**. That replaces Python's ternary (`a if c else b`) and covers most of what `match` does, with less ceremony. There is no `elif`: you write `else if`.\n\n```python\nlabel = \"big\" if n > 100 else \"small\"\n\nmatch code:\n    case 200: msg = \"ok\"\n    case 404: msg = \"missing\"\n    case _:   msg = \"other\"\n```\n```kotlin\nval label = if (n > 100) \"big\" else \"small\"\n\nval msg = when (code) {\n    200 -> \"ok\"\n    404 -> \"missing\"\n    else -> \"other\"\n}\n```\n\n`when` branches can test ranges (`in 1..9`), several values (`1, 2, 3 ->`), or types (`is String ->`). With no subject, each branch is just a boolean condition, like an `if / elif` chain:\n\n<div class=\"run-slot\" data-run=\"0\"></div>",
   "task": "1. `grade(score)`: 90 and above is `\"A\"`, 80-89 is `\"B\"`, 70-79 is `\"C\"`, anything lower is `\"F\"`. Use `when` with ranges.\n2. `biggest(a, b)` returns the larger number using an `if` **expression** (no `return` inside the branches).",
   "runs": [
@@ -88,6 +93,7 @@ window.EXERCISES = [
   "id": "06-classes-data-classes",
   "title": "Classes and data classes",
   "section": "Classes",
+  "hidden": false,
   "lesson": "A Kotlin class declares its constructor and properties in one line. There is no `self`, no `__init__`, and no `new` when creating instances.\n\n```python\nclass Rectangle:\n    def __init__(self, width: int, height: int):\n        self.width = width\n        self.height = height\n\n    @property\n    def area(self) -> int:\n        return self.width * self.height\n\nr = Rectangle(3, 4)\n```\n```kotlin\nclass Rectangle(val width: Int, val height: Int) {\n    val area: Int\n        get() = width * height\n}\n\nval r = Rectangle(3, 4)\n```\n\n`val`/`var` in the constructor turns a parameter into a property. A `get()` after a property makes it computed on every access, like `@property`.\n\nFor classes that mainly hold data, add the `data` keyword. You get `equals`, `hashCode`, `toString` and `copy` for free, like `@dataclass(frozen=True)`. This is what most Spring request/response objects look like.\n\n```python\n@dataclass(frozen=True)\nclass Point:\n    x: int\n    y: int\n\np2 = replace(p, x=5)\n```\n```kotlin\ndata class Point(val x: Int, val y: Int)\n\nval p2 = p.copy(x = 5)\n```\n\nTwo more things Python developers trip over: classes are **final by default** (you must write `open` to allow inheritance), and members are **public by default**.\n\n<div class=\"run-slot\" data-run=\"0\"></div>",
   "task": "1. Finish `Rectangle`: `area` is `width * height`, and `scaled(factor)` returns a **new** `Rectangle` with both sides multiplied.\n2. `Point` is a plain class, so two equal points are not `==`. Make it a `data class`.\n3. `moveRight(p)` returns a copy of the point with `x` increased by 1. Use `copy`.",
   "runs": [
@@ -106,6 +112,7 @@ window.EXERCISES = [
   "id": "07-nullable-types",
   "title": "Nullable types",
   "section": "Null safety",
+  "hidden": false,
   "lesson": "This is Kotlin's biggest everyday difference from Python. A normal type **cannot hold `null`** (Kotlin's `None`). To allow it, add `?`. The compiler then forces you to handle the null case, so `NullPointerException`s mostly disappear (think `Optional[str]` with a type checker that actually refuses to compile).\n\n```python\ndef city_of(person: Optional[Person]) -> str:\n    if person is not None and person.address is not None:\n        return person.address.city or \"unknown\"\n    return \"unknown\"\n```\n```kotlin\nfun cityOf(person: Person?): String =\n    person?.address?.city ?: \"unknown\"\n```\n\nThree operators to learn:\n\n| Operator | Meaning | Python-ish equivalent |\n|---|---|---|\n| `x?.length` | safe call: `null` if `x` is null | `x.length if x is not None else None` |\n| `x ?: \"default\"` | Elvis: default when the left side is null | `x if x is not None else \"default\"` |\n| `x!!` | \"trust me, not null\": throws if wrong | avoid it |\n\nParsing is a good example. Python's `int(\"abc\")` raises. Kotlin offers a version that returns `null` instead:\n\n<div class=\"run-slot\" data-run=\"0\"></div>",
   "task": "`Person`, `Address` and their nullable fields are given (classes are covered in the previous exercise).\n\n1. `lengthOrZero(s)`: the length of `s`, or `0` if it is null.\n2. `cityOf(person)`: the person's city, or `\"unknown\"` if the person, the address or the city is null. One expression with `?.` and `?:`.\n3. `parseAge(text)`: the age as an `Int`, or `null` if it is not a number.",
   "runs": [
@@ -124,6 +131,7 @@ window.EXERCISES = [
   "id": "08-smart-casts",
   "title": "Type checks and smart casts",
   "section": "Null safety",
+  "hidden": false,
   "lesson": "`is` is Kotlin's `isinstance`. The nice part: after the check, the compiler **smart-casts** the variable, so you can use it as the narrower type without casting. Null checks work the same way.\n\n```python\ndef describe(x: object) -> str:\n    if isinstance(x, str):\n        return f\"string of length {len(x)}\"\n    if isinstance(x, list):\n        return f\"list of {len(x)}\"\n    return \"unknown\"\n```\n```kotlin\nfun describe(x: Any): String = when (x) {\n    is String -> \"string of length ${x.length}\"   // x is a String here\n    is List<*> -> \"list of ${x.size}\"\n    else -> \"unknown\"\n}\n```\n\n`Any` is Kotlin's `object`: the root of all non-null types (`Any?` also allows null). `List<*>` means \"a list of anything\".\n\nSmart casts also work with plain `if` and with `&&`:\n\n<div class=\"run-slot\" data-run=\"0\"></div>",
   "task": "Implement `describe(x)`:\n\n| Input | Result |\n|---|---|\n| an `Int` | `\"Int: \"` followed by the number doubled |\n| a `String` | `\"String of length \"` followed by its length |\n| a `List` | `\"List of size \"` followed by its size |\n| anything else (including `null`) | `\"Unknown\"` |",
   "runs": [
@@ -140,6 +148,7 @@ window.EXERCISES = [
   "id": "09-lambdas",
   "title": "Lambdas and higher-order functions",
   "section": "Functional style",
+  "hidden": false,
   "lesson": "Functions are values in Kotlin, as in Python. The big upgrade over Python's `lambda`: Kotlin lambdas can hold multiple statements, and the last expression is the result.\n\n```python\nsquare = lambda x: x * x\napply_twice = lambda f, x: f(f(x))\napply_twice(square, 3)   # 81\n```\n```kotlin\nval square = { x: Int -> x * x }\nfun applyTwice(f: (Int) -> Int, x: Int) = f(f(x))\napplyTwice(square, 3)   // 81\n```\n\nFunction types are written `(ParamTypes) -> ReturnType`. Three shortcuts you will see constantly:\n\n- A lambda with a single parameter can use the implicit name **`it`**.\n- If the lambda is the **last argument**, it goes outside the parentheses (a *trailing lambda*).\n- If it is the only argument, the parentheses disappear entirely.\n\n<div class=\"run-slot\" data-run=\"0\"></div>",
   "task": "1. `applyTwice(x, f)` applies `f` to `x` and then to the result again.\n2. `makeAdder(n)` returns a function that adds `n` to its argument (a closure, as in Python).\n3. `containsEven(numbers)` returns whether any number is even. Use the list's `any` function with a trailing lambda.",
   "runs": [
@@ -158,6 +167,7 @@ window.EXERCISES = [
   "id": "10-collections-basics",
   "title": "Lists, sets and maps",
   "section": "Collections",
+  "hidden": false,
   "lesson": "Kotlin separates **read-only** and **mutable** collections at the type level. `listOf(...)` gives a `List` you can read but not change; `mutableListOf(...)` gives a `MutableList`. Same for `setOf`/`mutableSetOf` and `mapOf`/`mutableMapOf`. Prefer the read-only ones and build new collections instead of mutating.\n\n```python\nnums = [1, 2, 3]\nnums.append(4)\nages = {\"ada\": 36}\nages[\"linus\"] = 28\n```\n```kotlin\nval nums = listOf(1, 2, 3)          // read-only\nval more = nums + 4                 // new list [1, 2, 3, 4]\nval ages = mutableMapOf(\"ada\" to 36)\nages[\"linus\"] = 28\n```\n\n`\"ada\" to 36` creates a `Pair`. Indexing with `[]` works on lists and maps. Reading a map key that may not exist returns **`null`** (a `V?`), not a `KeyError`, so you combine it with `?:`:\n\n```python\ncount = counts.get(word, 0)\n```\n```kotlin\nval count = counts[word] ?: 0\n```\n\n<div class=\"run-slot\" data-run=\"0\"></div>",
   "task": "1. `wordCounts(words)` counts how many times each word occurs (like `collections.Counter`). Use a `mutableMapOf<String, Int>()`, a `for` loop and `?: 0`. (We will meet a one-liner for this later.)\n2. `withItem(list, item)` returns a **new** list with `item` added at the end. The input is read-only, so you can't call `add`: use `+`.",
   "runs": [
@@ -175,6 +185,7 @@ window.EXERCISES = [
   "id": "11-map-filter",
   "title": "map, filter and friends",
   "section": "Collections",
+  "hidden": false,
   "lesson": "Kotlin has no list comprehensions. Instead, collections have chainable functions that take lambdas. After a week you stop missing comprehensions: pipelines read top to bottom.\n\n```python\n[x * x for x in nums if x % 2 == 0]\n{w: len(w) for w in words}\n```\n```kotlin\nnums.filter { it % 2 == 0 }.map { it * it }\nwords.associateWith { it.length }\n```\n\n| Python | Kotlin |\n|---|---|\n| `[f(x) for x in xs]` | `xs.map { f(it) }` |\n| `[x for x in xs if p(x)]` | `xs.filter { p(it) }` |\n| `{k: v for ...}` | `xs.associate { k to v }` or `associateWith` / `associateBy` |\n| `set(xs)` | `xs.toSet()` |\n| `[y for x in xs for y in x]` | `xs.flatMap { it }` or `xs.flatten()` |\n| `xs[:3]` | `xs.take(3)` |\n\n<div class=\"run-slot\" data-run=\"0\"></div>",
   "task": "1. `evenSquares(nums)`: the squares of the even numbers, in the original order.\n2. `shout(words)`: keep words longer than 3 letters, uppercase them and add `\"!\"`, e.g. `\"kotlin\"` becomes `\"KOTLIN!\"`.\n3. `lengths(words)`: a map from each word to its length.",
   "runs": [
@@ -193,6 +204,7 @@ window.EXERCISES = [
   "id": "12-group-partition",
   "title": "groupBy, partition and flatMap",
   "section": "Collections",
+  "hidden": false,
   "lesson": "The functions you would reach for `defaultdict`, `itertools.groupby` or a loop with two lists to do.\n\n```python\nby_dept = defaultdict(list)\nfor e in staff:\n    by_dept[e.dept].append(e.name)\n\nhigh, low = [], []\nfor e in staff:\n    (high if e.salary > 100 else low).append(e)\n\nskills = {s for e in staff for s in e.skills}\n```\n```kotlin\nval byDept = staff.groupBy({ it.dept }, { it.name })\n\nval (high, low) = staff.partition { it.salary > 100 }\n\nval skills = staff.flatMap { it.skills }.toSet()\n```\n\n- `groupBy { key }` gives `Map<Key, List<Item>>`. The two-lambda form also transforms each item.\n- `partition { cond }` returns a `Pair` of two lists (matching, not matching). You can destructure it as above.\n- `flatMap { list }` maps and then flattens one level.\n- `associate { key to value }` builds a map; later keys win on duplicates.\n\n<div class=\"run-slot\" data-run=\"0\"></div>",
   "task": "The `Employee` data class and a `staff` list are given at the top. Implement:\n\n1. `namesByDept(es)`: `Map<String, List<String>>` from department to employee names.\n2. `splitByPay(es, threshold)`: a `Pair` of (employees earning **more than** the threshold, everyone else).\n3. `salaryByName(es)`: map from name to salary.\n4. `uniqueSkills(es)`: the set of all skills across everyone.",
   "runs": [
@@ -212,6 +224,7 @@ window.EXERCISES = [
   "id": "13-aggregate",
   "title": "sum, count, fold and any/all",
   "section": "Collections",
+  "hidden": false,
   "lesson": "Aggregation is where Kotlin reads closest to English. Most of these replace a small loop or a generator expression inside `sum()`, `any()` or `all()`.\n\n```python\ntotal = sum(e.salary for e in staff)\nrich = sum(1 for e in staff if e.salary > 100)\nanyone = any(\"sql\" in e.skills for e in staff)\neveryone = all(e.salary > 50 for e in staff)\nproduct = functools.reduce(lambda a, b: a * b, nums, 1)\n```\n```kotlin\nval total = staff.sumOf { it.salary }\nval rich = staff.count { it.salary > 100 }\nval anyone = staff.any { \"sql\" in it.skills }\nval everyone = staff.all { it.salary > 50 }\nval product = nums.fold(1) { acc, n -> acc * n }\n```\n\n- `x in collection` is Kotlin's `in` too.\n- `fold(initial) { acc, item -> ... }` is `functools.reduce` with the initial value first. `reduce { acc, item -> ... }` uses the first element as the start and fails on an empty list; prefer `fold`.\n- `none { }` is the opposite of `any { }`.\n\n<div class=\"run-slot\" data-run=\"0\"></div>",
   "task": "Employees are given again. Implement:\n\n1. `totalPayroll(es)`: the sum of all salaries.\n2. `countHighEarners(es, threshold)`: how many earn **more than** `threshold`.\n3. `anyoneKnows(es, skill)`: whether anyone has that skill.\n4. `everyoneEarnsAtLeast(es, minimum)`: whether all salaries are `>= minimum`.\n5. `product(nums)`: the product of the numbers using `fold`. The product of an empty list is `1`.",
   "runs": [
@@ -230,6 +243,7 @@ window.EXERCISES = [
   "id": "14-sorting-minmax",
   "title": "Sorting, min and max",
   "section": "Collections",
+  "hidden": false,
   "lesson": "`sorted(key=...)` becomes `sortedBy { }`. The most important difference from Python: `max`/`min` on an empty collection does not raise. The `...OrNull` versions return `null`, which the type system makes you handle.\n\n```python\nsorted(staff, key=lambda e: e.salary, reverse=True)\nsorted(staff, key=lambda e: (e.dept, -e.salary))\nmax(staff, key=lambda e: e.salary, default=None)\n```\n```kotlin\nstaff.sortedByDescending { it.salary }\nstaff.sortedWith(compareBy({ it.dept }, { -it.salary }))\nstaff.maxByOrNull { it.salary }\n```\n\n| Python | Kotlin |\n|---|---|\n| `sorted(xs)` | `xs.sorted()` |\n| `sorted(xs, reverse=True)` | `xs.sortedDescending()` |\n| `sorted(xs, key=k)` | `xs.sortedBy { k }` |\n| `xs.sort()` (in place) | `mutableList.sort()` |\n| `max(xs, key=k)` | `xs.maxByOrNull { k }` |\n| `max(xs)` | `xs.maxOrNull()` |\n| `xs[:n]` | `xs.take(n)` |\n\n<div class=\"run-slot\" data-run=\"0\"></div>",
   "task": "1. `topEarner(es)`: the employee with the highest salary, or `null` if the list is empty.\n2. `topNames(es, n)`: names of the `n` highest-paid employees, highest first.\n3. `byDeptThenPay(es)`: employees sorted by department name, and within a department by salary descending.",
   "runs": [
@@ -248,6 +262,7 @@ window.EXERCISES = [
   "id": "15-sequences",
   "title": "Sequences (Kotlin's generators)",
   "section": "Collections",
+  "hidden": false,
   "lesson": "`map`, `filter` and friends on a `List` are **eager**: each step builds a whole new list. A `Sequence` is the lazy version, like a Python generator or iterator: values are produced one at a time, only as needed. Use it for infinite streams or very large pipelines.\n\n```python\ndef fibonacci():\n    a, b = 0, 1\n    while True:\n        yield a\n        a, b = b, a + b\n\nlist(itertools.islice(fibonacci(), 8))\n```\n```kotlin\nfun fibonacci(): Sequence<Long> = sequence {\n    var a = 0L\n    var b = 1L\n    while (true) {\n        yield(a)\n        val next = a + b\n        a = b\n        b = next\n    }\n}\n\nfibonacci().take(8).toList()\n```\n\n`sequence { ... yield(x) ... }` is the generator builder. Other ways to get a sequence: `list.asSequence()` and `generateSequence(seed) { next }`. Intermediate operations (`map`, `filter`, `take`) stay lazy; a terminal one like `toList()`, `first()` or `sum()` runs the pipeline.\n\n<div class=\"run-slot\" data-run=\"0\"></div>",
   "task": "1. `fibonacci()` returns the infinite sequence `0, 1, 1, 2, 3, 5, 8, ...` using the `sequence { yield }` builder.\n2. `firstSquaresAbove(limit, count)` returns the first `count` perfect squares greater than `limit`, built from `generateSequence`.",
   "runs": [
@@ -265,6 +280,7 @@ window.EXERCISES = [
   "id": "16-ranges-loops",
   "title": "Ranges, loops and destructuring",
   "section": "Collections",
+  "hidden": false,
   "lesson": "Kotlin has only two loops that matter: `for (x in something)` and `while`. Ranges replace `range()`, and `withIndex()`/`zip()` replace `enumerate()`/`zip()`.\n\n```python\nfor i in range(1, 6): ...\nfor i in range(10, 0, -2): ...\nfor i, name in enumerate(names): ...\nfor a, b in zip(xs, ys): ...\nfor key, value in d.items(): ...\n```\n```kotlin\nfor (i in 1..5) { ... }              // 1..5 includes 5\nfor (i in 10 downTo 1 step 2) { ... }\nfor ((i, name) in names.withIndex()) { ... }\nfor ((a, b) in xs.zip(ys)) { ... }\nfor ((key, value) in map) { ... }\n```\n\nCareful: `1..5` is **inclusive** (Python's `range(1, 6)`). To exclude the end use `until`: `0 until n` is `range(n)`. Also useful: `x in 1..9` as a condition, like `1 <= x <= 9`.\n\nThe `(a, b)` syntax is *destructuring*, like tuple unpacking. It works on `Pair`, `Map.Entry`, and any data class: `val (name, age) = person`.\n\n<div class=\"run-slot\" data-run=\"0\"></div>",
   "task": "1. `fizzBuzz(n)`: a list for `1..n`: `\"FizzBuzz\"` for multiples of 15, `\"Fizz\"` for multiples of 3, `\"Buzz\"` for multiples of 5, otherwise the number as a string. Loop with a range and use `when`.\n2. `indexed(items)`: `[\"a\", \"b\"]` becomes `[\"0:a\", \"1:b\"]`. Use `withIndex()`.\n3. `pairSums(xs, ys)`: add the elements pairwise (`zip`), stopping at the shorter list.",
   "runs": [
@@ -283,6 +299,7 @@ window.EXERCISES = [
   "id": "17-sealed-classes",
   "title": "Sealed classes and exhaustive when",
   "section": "Modelling data",
+  "hidden": false,
   "lesson": "A `sealed` type has a **closed set of subtypes**, all known at compile time. It is like a Python `Union[Circle, Rect]` or an enum whose cases carry different data. The payoff: a `when` over it needs no `else`, and if you add a new case later the compiler points at every `when` you forgot to update.\n\n```python\nShape = Union[Circle, Rectangle]\n\ndef area(s: Shape) -> float:\n    match s:\n        case Circle(r):       return math.pi * r * r\n        case Rectangle(w, h): return w * h\n```\n```kotlin\nsealed interface Shape\ndata class Circle(val radius: Double) : Shape\ndata class Rectangle(val w: Double, val h: Double) : Shape\n\nfun area(s: Shape): Double = when (s) {\n    is Circle -> Math.PI * s.radius * s.radius\n    is Rectangle -> s.w * s.h\n}   // no else needed: the compiler knows these are all the cases\n```\n\nThis is how Kotlin code usually models \"result or error\" without exceptions, and the states of a workflow:\n\n<div class=\"run-slot\" data-run=\"0\"></div>",
   "task": "The `PaymentMethod` hierarchy is given. Implement:\n\n1. `fee(payment)`: the processing fee in cents. Cards pay 2% of the amount (rounded down), PayPal pays a flat `30`, bank transfers pay `0`. Write a `when` **without** an `else` branch.\n2. `describe(payment)`: `\"Card ending 4242\"`, `\"PayPal: ada@example.com\"` or `\"Bank transfer\"`.",
   "runs": [
@@ -300,6 +317,7 @@ window.EXERCISES = [
   "id": "18-interfaces-objects",
   "title": "Interfaces, objects and companions",
   "section": "Modelling data",
+  "hidden": false,
   "lesson": "Three Python idioms get dedicated keywords in Kotlin.\n\n**Interfaces** replace `ABC` / `Protocol`. A class implements one with `: Interface` and marks each method `override`. Interfaces can have default method bodies.\n\n**`object`** declares a singleton: the class and its only instance in one go. Think of a module-level instance, or the Python module itself holding state.\n\n**`companion object`** holds what Python puts in `@classmethod` / `@staticmethod`: factories and constants that belong to the class, not an instance.\n\n```python\nclass Greeter(Protocol):\n    def greet(self, name: str) -> str: ...\n\nclass Counter:                       # module-level singleton\n    _count = 0\n    @classmethod\n    def next(cls): cls._count += 1; return cls._count\n\nclass Temperature:\n    def __init__(self, celsius): self.celsius = celsius\n    @classmethod\n    def from_fahrenheit(cls, f): return cls((f - 32) * 5 / 9)\n```\n```kotlin\ninterface Greeter {\n    fun greet(name: String): String\n}\n\nobject Counter {\n    private var count = 0\n    fun next(): Int = ++count\n}\n\nclass Temperature private constructor(val celsius: Double) {\n    companion object {\n        fun fromFahrenheit(f: Double) = Temperature((f - 32) * 5 / 9)\n    }\n}\n```\n\nCallers use `Counter.next()` and `Temperature.fromFahrenheit(212.0)`: no instance, no `new`. This is also how Spring beans end up as singletons, but there the framework manages them.\n\nRemember: classes are final unless marked `open`, and interface methods are always overridable.\n\n<div class=\"run-slot\" data-run=\"0\"></div>",
   "task": "Everything is declared; replace the `TODO()`s.\n\n1. `FormalGreeter.greet(name)` returns `\"Good day, Ada.\"` style text.\n2. `Counter.next()` returns `1`, then `2`, then `3`, and so on.\n3. `Temperature.fromFahrenheit(f)` converts to Celsius using `(f - 32) * 5 / 9`.",
   "runs": [
@@ -318,6 +336,7 @@ window.EXERCISES = [
   "id": "19-extension-functions",
   "title": "Extension functions",
   "section": "Idiomatic Kotlin",
+  "hidden": false,
   "lesson": "You can add a function to **any** existing type, including types you don't own such as `String` or `List`, without subclassing. In Python you would monkey-patch or write a free function `is_palindrome(s)`. Kotlin lets you call it as `s.isPalindrome()` and stays type-safe: it is just a static function with a nicer call syntax, so nothing is modified at runtime.\n\n```python\ndef is_palindrome(s: str) -> bool:\n    return s == s[::-1]\n\nis_palindrome(\"racecar\")\n```\n```kotlin\nfun String.isPalindrome(): Boolean = this == this.reversed()\n\n\"racecar\".isPalindrome()\n```\n\nInside the function, `this` is the receiver (the object before the dot), and you can omit it: `this.reversed()` is just `reversed()`.\n\nExtensions are everywhere in the standard library: `map`, `filter`, `toIntOrNull` and `joinToString` are all extensions. Spring code often defines extensions for mapping between layers, e.g. `fun OrderEntity.toDto() = OrderDto(...)`.\n\n<div class=\"run-slot\" data-run=\"0\"></div>",
   "task": "Write three extension functions (the signature, including the receiver type, is given):\n\n1. `String.isPalindrome()`: ignoring case, `\"Racecar\"` is a palindrome.\n2. `List<Int>.secondOrNull()`: the second element, or `null` if there is none.\n3. `Int.isPrime()`: `true` for primes. 0, 1 and negative numbers are not prime.",
   "runs": [
@@ -336,6 +355,7 @@ window.EXERCISES = [
   "id": "20-scope-functions",
   "title": "Scope functions (let, apply, also)",
   "section": "Idiomatic Kotlin",
+  "hidden": false,
   "lesson": "Python has no direct equivalent of these, but you will see them in every Kotlin codebase. They are small standard-library functions that run a block on an object. You mostly need three:\n\n| Function | Inside the block the object is | Returns | Typical use |\n|---|---|---|---|\n| `x.let { ... }` | `it` | the block's result | do something **if not null**, or transform a value |\n| `x.apply { ... }` | `this` | the object itself | configure/initialise an object |\n| `x.also { ... }` | `it` | the object itself | side effects like logging |\n\n```python\nif email is not None:\n    message = f\"Email: {email}\"\nelse:\n    message = \"No email\"\n\nconfig = {}\nconfig[\"env\"] = \"prod\"\nconfig[\"debug\"] = \"false\"\n```\n```kotlin\nval message = email?.let { \"Email: $it\" } ?: \"No email\"\n\nval config = mutableMapOf<String, String>().apply {\n    this[\"env\"] = \"prod\"\n    this[\"debug\"] = \"false\"\n}\n```\n\n`?.let { }` is the most common pattern: the block runs only when the value is non-null, and inside it `it` is non-null.\n\nWhy does `apply` use `this` while `let` and `also` use `it`? `apply` takes a *lambda with receiver*. The next exercise shows how that works and how to write your own.\n\n<div class=\"run-slot\" data-run=\"0\"></div>",
   "task": "1. `describeEmail(email)`: `\"Email: ada@example.com\"` or `\"No email\"` when null. Use `?.let` and `?:`.\n2. `defaultConfig()`: a `MutableMap<String, String>` containing `env=prod` and `debug=false`, built with `apply`.\n3. `csvLine(values)`: join `values` with commas into a `StringBuilder` using `apply` and a `for` loop (no `joinToString`!), returning the final `String`. Make sure there is no trailing comma.",
   "runs": [
@@ -354,6 +374,7 @@ window.EXERCISES = [
   "id": "21-lambdas-with-receiver",
   "title": "Lambdas with receiver (builders and DSLs)",
   "section": "Idiomatic Kotlin",
+  "hidden": false,
   "lesson": "A normal lambda receives its input as a parameter: `(Person) -> Unit` gets a `person` (or `it`) and you write `it.name = \"Ada\"`. A **lambda with receiver** has the type `Person.() -> Unit`. Inside it the object is `this`, and you can drop the `this.`: you just write `name = \"Ada\"`, as if the lambda were a method of `Person`.\n\nYou already used these: `apply` is declared as `fun <T> T.apply(block: T.() -> Unit): T`, and `buildString { append(\"a\") }` works the same way.\n\n```python\n# Python has no equivalent. The closest is passing the object in and using it explicitly:\ndef build_request(configure):\n    req = Request()\n    configure(req)\n    return req\n\nbuild_request(lambda r: setattr(r, \"url\", \"/orders\"))   # awkward: every line needs \"r.\"\n```\n```kotlin\nfun request(configure: Request.() -> Unit): Request {\n    val req = Request()\n    req.configure()          // call the lambda *on* req\n    return req\n}\n\nrequest { url = \"/orders\" }  // no \"it.\" or \"req.\" needed\n```\n\nThe recipe to write your own builder has three steps:\n\n1. Take a parameter of type `Receiver.() -> Unit`.\n2. Create the receiver object.\n3. Run the lambda on it (`receiver.block()`) and return the result.\n\nTrailing-lambda syntax then makes calls look like configuration blocks. That is how Kotlin DSLs are built: Gradle's `build.gradle.kts`, Spring's `router { }` and `beans { }`, and `mockMvc.get(\"/orders\") { ... }` in tests. You will meet them in the Spring part.\n\n<div class=\"run-slot\" data-run=\"0\"></div>",
   "task": "The classes `Person`, `PersonBuilder` and `Ul` are given. Write three functions that take a lambda with receiver:\n\n1. `buildPerson { name = \"Ada\"; age = 36 }` creates a `PersonBuilder`, runs the lambda on it and returns the built `Person`.\n2. `myApply`: re-implement the standard `apply` yourself. It runs `block` on the receiver and returns the receiver.\n3. `ul { li(\"a\"); li(\"b\") }` returns the HTML `<ul><li>a</li><li>b</li></ul>`. Create an `Ul`, run the lambda on it and return its `render()`.",
   "runs": [
@@ -369,26 +390,10 @@ window.EXERCISES = [
   "solutionRegion": "fun buildPerson(block: PersonBuilder.() -> Unit): Person {\n    val builder = PersonBuilder()\n    builder.block()\n    return builder.build()\n}\n\nfun <T> T.myApply(block: T.() -> Unit): T {\n    block()\n    return this\n}\n\nfun ul(block: Ul.() -> Unit): String {\n    val list = Ul()\n    list.block()\n    return list.render()\n}\n"
  },
  {
-  "id": "22-properties-delegates",
-  "title": "Properties, lazy and lateinit",
-  "section": "Idiomatic Kotlin",
-  "lesson": "You have already seen computed properties (`val area get() = ...`, Python's `@property`). Two more property features show up constantly in Spring code.\n\n**`by lazy`** computes a value on first access and caches it, exactly like `functools.cached_property`.\n\n**`lateinit var`** declares a non-null `var` that you promise to assign before first use (for example by a framework, or in a test setup). Reading it too early throws. It is Kotlin's escape hatch from \"every non-null property must be initialised in the constructor\".\n\n```python\nclass Report:\n    @cached_property\n    def summary(self):\n        print(\"computing...\")\n        return expensive()\n\n    @property\n    def full_name(self):\n        return f\"{self.first} {self.last}\"\n```\n```kotlin\nclass Report {\n    val summary: String by lazy {\n        println(\"computing...\")\n        expensive()\n    }\n\n    val fullName: String\n        get() = \"$first $last\"\n}\n```\n\nThe difference between a getter and `by lazy`: a getter runs on **every** read; `lazy` runs its block once.\n\n<div class=\"run-slot\" data-run=\"0\"></div>",
-  "task": "Two small classes with `TODO()`s:\n\n1. `User.fullName` is `\"first last\"`, computed from the other properties (a custom getter).\n2. `Report.summary` must be computed **once**, no matter how many times it is read. The starter uses a getter that recomputes every time. Change it to `by lazy`. `computations` counts how often the block ran.",
-  "runs": [
-   "class Demo {\n    val every get() = println(\"getter ran\")\n    val once by lazy { println(\"lazy ran\"); 42 }\n    lateinit var name: String\n}\n\nfun main() {\n    val d = Demo()\n    d.every; d.every          // prints twice\n    println(d.once); println(d.once)   // computed once, printed twice\n    d.name = \"set later\"\n    println(d.name)\n}\n"
-  ],
-  "hints": [
-   "`val fullName: String get() = \"$first $last\"`",
-   "`val summary: String by lazy { computations++; \"report #$computations\" }`: `by lazy` takes a lambda and caches its result."
-  ],
-  "starter": "import org.junit.Test\nimport kotlin.test.*\n\n//sampleStart\nclass User(val first: String, val last: String) {\n    val fullName: String = TODO()\n}\n\nclass Report {\n    var computations = 0\n        private set\n\n    val summary: String\n        get() {\n            computations++\n            return \"report #$computations\"\n        }\n}\n//sampleEnd\n\nclass PropertiesTest {\n    @Test fun fullName() = assertEquals(\"Ada Lovelace\", User(\"Ada\", \"Lovelace\").fullName)\n    @Test fun lazyComputesOnce() {\n        val r = Report()\n        assertEquals(\"report #1\", r.summary)\n        assertEquals(\"report #1\", r.summary)\n        assertEquals(1, r.computations)\n    }\n    @Test fun lazyDoesNotComputeUntilAsked() = assertEquals(0, Report().computations)\n}\n",
-  "solution": "import org.junit.Test\nimport kotlin.test.*\n\n//sampleStart\nclass User(val first: String, val last: String) {\n    val fullName: String\n        get() = \"$first $last\"\n}\n\nclass Report {\n    var computations = 0\n        private set\n\n    val summary: String by lazy {\n        computations++\n        \"report #$computations\"\n    }\n}\n//sampleEnd\n\nclass PropertiesTest {\n    @Test fun fullName() = assertEquals(\"Ada Lovelace\", User(\"Ada\", \"Lovelace\").fullName)\n    @Test fun lazyComputesOnce() {\n        val r = Report()\n        assertEquals(\"report #1\", r.summary)\n        assertEquals(\"report #1\", r.summary)\n        assertEquals(1, r.computations)\n    }\n    @Test fun lazyDoesNotComputeUntilAsked() = assertEquals(0, Report().computations)\n}\n",
-  "solutionRegion": "class User(val first: String, val last: String) {\n    val fullName: String\n        get() = \"$first $last\"\n}\n\nclass Report {\n    var computations = 0\n        private set\n\n    val summary: String by lazy {\n        computations++\n        \"report #$computations\"\n    }\n}\n"
- },
- {
   "id": "23-exceptions",
   "title": "Exceptions and preconditions",
   "section": "Idiomatic Kotlin",
+  "hidden": false,
   "lesson": "Exceptions work as in Python, with two differences: there are **no checked exceptions** (you never have to declare or catch anything), and `try` is an **expression** that returns a value.\n\n```python\ntry:\n    value = int(text)\nexcept ValueError:\n    value = None\n\nif amount <= 0:\n    raise ValueError(\"amount must be positive\")\n```\n```kotlin\nval value = try { text.toInt() } catch (e: NumberFormatException) { null }\n\nrequire(amount > 0) { \"amount must be positive\" }\n```\n\nKotlin ships small helpers for the common \"raise if wrong\" checks:\n\n| Call | Throws | Use for |\n|---|---|---|\n| `require(cond) { msg }` | `IllegalArgumentException` | validating **arguments** |\n| `check(cond) { msg }` | `IllegalStateException` | validating object **state** |\n| `error(msg)` | `IllegalStateException` | \"this should never happen\" |\n| `value ?: error(msg)` | | unwrap a nullable or fail |\n\nTests use `assertFailsWith<SomeException> { ... }`, which is `pytest.raises`.\n\n<div class=\"run-slot\" data-run=\"0\"></div>",
   "task": "1. `safeDivide(a, b)`: `a / b`, or `null` when `b` is zero. Use `try`/`catch` for `ArithmeticException` as an expression (integer division by zero throws it).\n2. `withdraw(balance, amount)`: returns the new balance. The amount must be positive (`require`), and you can't withdraw more than the balance (`check`, message `\"Insufficient funds\"`).\n3. `parsePort(text)`: the port number as `Int` if the text is a number in `1..65535`, otherwise throw with `error(\"Invalid port: $text\")`.",
   "runs": [
@@ -407,6 +412,7 @@ window.EXERCISES = [
   "id": "24-generics",
   "title": "Generics",
   "section": "Idiomatic Kotlin",
+  "hidden": false,
   "lesson": "Generics are Python's `TypeVar` and `Generic[T]`, except the compiler enforces them rather than an optional type checker. A type parameter goes in angle brackets, and you can bound it (`T : Comparable<T>`) to say \"any type that can be ordered\", which is how `sorted()` knows it can compare things.\n\n```python\nT = TypeVar(\"T\")\n\nclass Box(Generic[T]):\n    def __init__(self, item: T): self.item = item\n\nN = TypeVar(\"N\", bound=SupportsLessThan)\ndef bigger(a: N, b: N) -> N:\n    return a if a > b else b\n```\n```kotlin\nclass Box<T>(val item: T)\n\nfun <T : Comparable<T>> bigger(a: T, b: T): T = if (a > b) a else b\n```\n\nNotice that a generic function declares its type parameter **before** the name: `fun <T> name(...)`. The compiler infers `T` from the call, so you rarely write it out: `bigger(1, 2)` and `bigger(\"a\", \"b\")` just work.\n\n<div class=\"run-slot\" data-run=\"0\"></div>",
   "task": "1. Implement the generic `Stack<T>` backed by a `MutableList<T>`: `push(item)`, `pop()` (returns the top item or `null` if empty), `peek()` (same but doesn't remove it) and `size`.\n2. Implement `bigger(a, b)`, bounded by `Comparable`, returning the larger value for any comparable type.",
   "runs": [
@@ -424,6 +430,7 @@ window.EXERCISES = [
   "id": "25-operators",
   "title": "Operator overloading",
   "section": "Idiomatic Kotlin",
+  "hidden": false,
   "lesson": "Python's dunder methods (`__add__`, `__lt__`, `__getitem__`, `__call__`) are `operator fun` in Kotlin. The operator keyword is the opt-in: only functions marked `operator` with the right name can be used with the symbol.\n\n| Python | Kotlin |\n|---|---|\n| `__add__` | `operator fun plus(other)` |\n| `__mul__` | `operator fun times(other)` |\n| `__getitem__` | `operator fun get(i)` |\n| `__contains__` | `operator fun contains(x)` |\n| `__lt__` etc. | implement `Comparable<T>` and `operator fun compareTo` |\n| `__call__` | `operator fun invoke(...)` |\n\n```python\n@dataclass(frozen=True, order=True)\nclass Money:\n    cents: int\n    def __add__(self, other): return Money(self.cents + other.cents)\n    def __mul__(self, n): return Money(self.cents * n)\n\nMoney(100) + Money(50)\n```\n```kotlin\ndata class Money(val cents: Int) : Comparable<Money> {\n    operator fun plus(other: Money) = Money(cents + other.cents)\n    operator fun times(n: Int) = Money(cents * n)\n    override operator fun compareTo(other: Money) = cents.compareTo(other.cents)\n}\n\nMoney(100) + Money(50)\n```\n\nOnce `compareTo` exists, `<`, `>`, `<=` and `>=` all work, plus `sorted()`, `maxOrNull()`, `coerceAtLeast` and so on.\n\n<div class=\"run-slot\" data-run=\"0\"></div>",
   "task": "Finish `Money`:\n\n1. `plus`: adds two amounts.\n2. `times`: multiplies by an `Int`.\n3. `compareTo`: orders by cents. `Money(100) < Money(200)` must be true.",
   "runs": [
@@ -441,6 +448,7 @@ window.EXERCISES = [
   "id": "26-capstone-orders",
   "title": "\"Capstone: processing orders\"",
   "section": "Putting it together",
+  "hidden": false,
   "lesson": "Time to combine what you have learned. This is the kind of code a backend service has between \"parse the request\" and \"return the response\": data classes, nullable fields, collection pipelines, extension functions and a `sealed` result.\n\nHere is the model (given in the editor):\n\n```kotlin\ndata class OrderLine(val sku: String, val quantity: Int, val unitPriceCents: Int)\ndata class Order(val id: String, val customer: String?, val lines: List<OrderLine>)\n\nsealed interface ParsedLine\ndata class ValidLine(val line: OrderLine) : ParsedLine\ndata class InvalidLine(val raw: String) : ParsedLine\n```",
   "task": "1. **`Order.totalCents()`** (an extension function): the sum of `quantity * unitPriceCents` over all lines.\n2. **`revenueByCustomer(orders)`**: total cents per customer. Orders whose `customer` is `null` are grouped under `\"guest\"`.\n3. **`topCustomer(orders)`**: the name of the customer with the highest revenue (guests count as `\"guest\"`), or `null` when there are no orders.\n4. **`parseLine(raw)`**: parse text like `\"WIDGET:3:250\"` (`sku:quantity:unitPriceCents`) into a `ValidLine`. Anything else (wrong number of parts, non-numeric numbers, quantity below 1) becomes `InvalidLine(raw)`.",
   "runs": [],

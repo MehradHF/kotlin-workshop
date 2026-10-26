@@ -1,6 +1,7 @@
 ---
 title: Properties, lazy and lateinit
 section: Idiomatic Kotlin
+hidden: true
 ---
 You have already seen computed properties (`val area get() = ...`, Python's `@property`). Two more property features show up constantly in Spring code.
 
