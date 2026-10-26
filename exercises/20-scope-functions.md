@@ -31,6 +31,8 @@ val config = mutableMapOf<String, String>().apply {
 
 `?.let { }` is the most common pattern: the block runs only when the value is non-null, and inside it `it` is non-null.
 
+Why does `apply` use `this` while `let` and `also` use `it`? `apply` takes a *lambda with receiver*. The next exercise shows how that works and how to write your own.
+
 ```kotlin run
 fun main() {
     val name: String? = "kotlin"

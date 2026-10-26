@@ -1,13 +1,13 @@
 # Kotlin for Python developers: self-paced workshop
 
-Part 1 of a Kotlin + Spring Boot workshop. 25 short exercises in the browser, each with a lesson that puts
+Part 1 of a Kotlin + Spring Boot workshop. 26 short exercises in the browser, each with a lesson that puts
 Python and Kotlin side by side, then a task with automated tests. Code runs on JetBrains' public Kotlin
 Playground servers, so there is nothing to install.
 
 Topics follow the order of Kotlin Koans, but every lesson and exercise here is original and framed for
 people who already know Python: basics, classes and data classes, null safety, lambdas, collections,
-sealed classes, extension functions, scope functions, exceptions, generics, operators, and a small
-order-processing capstone.
+sealed classes, extension functions, scope functions, lambdas with receiver (builders and DSLs), exceptions,
+generics, operators, and a small order-processing capstone.
 
 ## Run it
 
