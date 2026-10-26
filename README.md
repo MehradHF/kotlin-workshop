@@ -15,7 +15,7 @@ generics, operators, and a small order-processing capstone.
 npm run serve        # then open http://localhost:8000
 ```
 
-(Any static file server works.) You need internet access,
+(Any static file server works, but `npm run serve` disables caching so updates show up on a normal reload.) You need internet access,
 because the editor and compiler come from `unpkg.com` and `api.kotlinlang.org`.
 
 Progress and the learner's code are saved in the browser's `localStorage`, so a refresh loses nothing.
@@ -75,6 +75,7 @@ exercises/   source of truth, one Markdown file per exercise
 site/        static web app (index.html, app.js, style.css) + generated exercises.js
 build.mjs    compiles exercises into site/exercises.js
 verify.mjs   checks exercises against the Kotlin Playground compile API
+serve.mjs    tiny static server for site/ with caching disabled
 ```
 
 ## Part 2
