@@ -43,6 +43,8 @@ data class Point(val x: Int, val y: Int)
 val p2 = p.copy(x = 5)
 ```
 
+`frozen=True` makes instances read-only (and hashable), which is what `val` properties give you in Kotlin. Because neither can be changed in place, you make a modified copy instead: `replace` in Python, `copy` in Kotlin.
+
 Two more things Python developers trip over: classes are **final by default** (you must write `open` to allow inheritance), and members are **public by default**.
 
 ```kotlin run
