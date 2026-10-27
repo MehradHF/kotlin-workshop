@@ -77,7 +77,7 @@ Currently hidden: `17-sealed-classes` (sealed classes and exhaustive `when`) and
 (`lazy` and `lateinit`).
 
 ```bash
-npm run build        # exercises/*.md -> site/exercises.js (commit the result)
+npm run build        # exercises/*.md -> site/exercises.js, and stamps index.html with a cache-busting version (commit both)
 npm run verify       # compile-checks every exercise against the real Kotlin server
 node verify.mjs 07   # ...or only exercises whose id starts with 07
 ```

@@ -15,6 +15,7 @@
 //   ```hint            -> one hint per block, revealed one at a time
 //   ```habit           -> "Python habit to unlearn" box, shown where it appears in the lesson (inline markdown only:
 //                         a code fence inside would end the block)
+import { createHash } from 'node:crypto'
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -89,4 +90,18 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const exercises = loadExercises().filter((e) => !e.hidden)
   writeFileSync(join(root, 'site', 'exercises.js'), `window.EXERCISES = ${JSON.stringify(exercises, null, 1)};\n`)
   console.log(`Built ${exercises.length} exercises -> site/exercises.js`)
+
+  // Cache busting: GitHub Pages lets browsers cache files for 10 minutes, and a fresh exercises.js with a stale app.js
+  // renders wrongly. Stamping one fingerprint of all three files onto their URLs means a browser either reuses the whole
+  // previous set or fetches the whole new one, never a mix.
+  const assets = ['style.css', 'exercises.js', 'app.js']
+  const hash = createHash('sha256')
+  for (const a of assets) hash.update(readFileSync(join(root, 'site', a)))
+  const version = hash.digest('hex').slice(0, 10)
+  const indexPath = join(root, 'site', 'index.html')
+  const index = readFileSync(indexPath, 'utf8')
+  const stamped = index.replace(/"(style\.css|exercises\.js|app\.js)(\?v=[0-9a-f]+)?"/g, `"$1?v=${version}"`)
+  if (stamped.match(/\?v=/g)?.length !== assets.length) throw new Error('site/index.html: expected one reference to each of ' + assets.join(', '))
+  writeFileSync(indexPath, stamped)
+  console.log(`Stamped site/index.html with version ${version}`)
 }
