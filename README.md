@@ -2,7 +2,8 @@
 
 Part 1 of a Kotlin + Spring Boot workshop. 24 short exercises in the browser, each with a lesson that puts
 Python and Kotlin side by side, then a task with automated tests. Code runs on JetBrains' public Kotlin
-Playground servers, so there is nothing to install.
+Playground servers, so there is nothing to install. A final guide page then moves the learner to a local
+JDK + IntelliJ + Gradle setup (the `local-starter/` project), ready for the Spring Boot part.
 
 Topics follow the order of Kotlin Koans, but every lesson and exercise here is original and framed for
 people who already know Python: basics, classes and data classes, null safety, lambdas, collections,
@@ -10,6 +11,11 @@ extension functions, scope functions, lambdas with receiver (builders and DSLs),
 generics, operators, and a small order-processing capstone.
 
 ## Run it
+
+Learners just open **https://mehradhf.github.io/kotlin-workshop/**. Every push to `main` rebuilds and publishes
+`site/` through `.github/workflows/pages.yml` (one-time setup: repo Settings → Pages → Source: "GitHub Actions").
+
+To work on it locally:
 
 ```bash
 npm run serve        # then open http://localhost:8000
@@ -58,6 +64,9 @@ fun hello(): String = TODO()
 
 Only the code between `//sampleStart` and `//sampleEnd` is editable.
 
+A page with `guide: true` in its front matter is reading only: it needs no task, starter or solution, and the
+learner ticks it off with a "Mark as done" button (see `27-kotlin-on-your-machine`).
+
 To take an exercise out of the site without deleting it, add `hidden: true` to its front matter and run
 `npm run build`. It stays in `exercises/` and `npm run verify` still checks it. Remove the line to bring it back.
 Currently hidden: `17-sealed-classes` (sealed classes and exhaustive `when`) and `22-properties-delegates`
@@ -73,6 +82,10 @@ node verify.mjs 07   # ...or only exercises whose id starts with 07
 at least one test**, and every `kotlin run` snippet compiles and runs. Run it after any edit.
 Set `KOTLIN_VERSION` to test against another compiler version (default `2.4.21`).
 
+`local-starter/` is a Gradle project (Kotlin `2.4.21`, Gradle wrapper `9.8.2`) with the capstone's model, `TODO()`
+stubs and tests. When you change the capstone, keep it in sync, and check it with `./gradlew test` (it should fail until
+the solution is pasted in). Keep the Kotlin version there and in `verify.mjs` the same.
+
 ## Layout
 
 ```
@@ -81,6 +94,8 @@ site/        static web app (index.html, app.js, style.css) + generated exercise
 build.mjs    compiles exercises into site/exercises.js
 verify.mjs   checks exercises against the Kotlin Playground compile API
 serve.mjs    tiny static server for site/ with caching disabled
+local-starter/  Gradle project learners open in IntelliJ on the last page
+.github/workflows/pages.yml  publishes site/ to GitHub Pages
 ```
 
 ## Part 2

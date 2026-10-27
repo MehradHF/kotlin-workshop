@@ -5,6 +5,7 @@
 //   title: ...
 //   section: ...
 //   hidden: true       (optional: keep the file and verify it, but leave it out of the site)
+//   guide: true        (optional: a reading page with no task or editor; the learner marks it done)
 //   ---
 //   lesson markdown (plain ```python / ```kotlin blocks are shown side by side)
 //   ```kotlin run      -> runnable snippet (must contain fun main)
@@ -42,7 +43,8 @@ export function parseExercise(file) {
     else return all
     return ''
   })
-  if (!starter || !solution) throw new Error(`${file}: needs starter and solution blocks`)
+  const guide = meta.guide === 'true'
+  if (!guide && (!starter || !solution)) throw new Error(`${file}: needs starter and solution blocks`)
 
   const [lesson, task = ''] = body.split(/^## Your task\s*$/m)
   const region = (src) => {
@@ -55,13 +57,14 @@ export function parseExercise(file) {
     title: meta.title,
     section: meta.section,
     hidden: meta.hidden === 'true',
+    guide,
     lesson: lesson.trim(),
     task: task.trim(),
     runs,
     hints,
     starter,
     solution,
-    solutionRegion: region(solution),
+    solutionRegion: guide ? null : region(solution),
   }
 }
 

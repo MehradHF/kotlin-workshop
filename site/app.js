@@ -105,6 +105,25 @@ function renderExercise(ex, index) {
     pending.push(pg.mount)
   })
 
+  const prev = exercises[index - 1]
+  const next = exercises[index + 1]
+  const nav = el('div', { className: 'nav' },
+    prev ? el('a', { className: 'btn', href: `#/${prev.id}`, textContent: `← ${prev.title}` }) : el('span'),
+    next ? el('a', { className: 'btn primary', href: `#/${next.id}`, textContent: `${next.title} →` })
+         : el('a', { className: 'btn primary', href: '#/', textContent: 'Finished! Back to start' }))
+  const crumb = el('div', { className: 'crumb', textContent: `${ex.section} · ${index + 1} of ${exercises.length}` })
+
+  // Guide pages are reading only: no editor, the learner ticks them off themselves.
+  if (ex.guide) {
+    const doneBtn = el('button', { className: 'btn', onclick: () => { markDone(ex.id); doneBtn.disabled = true; doneBtn.textContent = '✓ Done' } })
+    doneBtn.disabled = isDone(ex.id)
+    doneBtn.textContent = doneBtn.disabled ? '✓ Done' : 'Mark as done'
+    main.append(crumb, el('h1', { textContent: ex.title }), lesson, el('div', { className: 'actions' }, doneBtn), nav)
+    pending.forEach((mount) => mount())
+    window.scrollTo(0, 0)
+    return
+  }
+
   const editorHost = el('div', { className: 'editor' })
   const mountEditor = (code) => {
     editorHost.replaceChildren()
@@ -138,10 +157,8 @@ function renderExercise(ex, index) {
     mountEditor(ex.starter)
   } })
 
-  const prev = exercises[index - 1]
-  const next = exercises[index + 1]
   main.append(
-    el('div', { className: 'crumb', textContent: `${ex.section} · ${index + 1} of ${exercises.length}` }),
+    crumb,
     el('h1', { textContent: ex.title }),
     lesson,
     el('h2', { textContent: 'Your task' }),
@@ -151,10 +168,7 @@ function renderExercise(ex, index) {
     el('div', { className: 'actions' }, resetBtn),
     ...hints,
     solution,
-    el('div', { className: 'nav' },
-      prev ? el('a', { className: 'btn', href: `#/${prev.id}`, textContent: `← ${prev.title}` }) : el('span'),
-      next ? el('a', { className: 'btn primary', href: `#/${next.id}`, textContent: `${next.title} →` })
-           : el('a', { className: 'btn primary', href: '#/', textContent: 'Finished! Back to start' })),
+    nav,
   )
   pending.forEach((mount) => mount())
   mountEditor(savedCode === null ? ex.starter : withRegion(ex.starter, regionOf(savedCode)))

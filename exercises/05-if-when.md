@@ -37,6 +37,21 @@ fun main() {
 }
 ```
 
+Conditions must be real `Boolean`s. Python's **truthiness** does not exist: an empty list, `0`, `""` and `null` are not "false", and `if (items)` does not compile. Say what you mean:
+
+```python
+if items: ...
+if not name: ...
+if user: ...
+```
+```kotlin
+if (items.isNotEmpty()) ...
+if (name.isEmpty()) ...       // or isBlank() to also treat "  " as empty
+if (user != null) ...
+```
+
+For a value that may be `null` or empty, `isNullOrEmpty()` and `isNullOrBlank()` cover both checks in one call (nullable types come in a later exercise).
+
 ## Your task
 
 1. `grade(score)`: 90 and above is `"A"`, 80-89 is `"B"`, 70-79 is `"C"`, anything lower is `"F"`. Use `when` with ranges.

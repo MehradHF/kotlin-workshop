@@ -1,6 +1,7 @@
 // Checks every exercise against the real Kotlin Playground server:
 //   - the solution must compile and pass all tests
 //   - the starter must compile and fail at least one test (otherwise it is already "solved")
+//   - every `kotlin run` snippet must compile and run (guide pages only have these)
 // Usage: node verify.mjs [id-prefix ...]
 import { loadExercises } from './build.mjs'
 
@@ -35,6 +36,21 @@ async function runMain(code) {
   return { compile: errorsOf(r), exception: r.exception?.message, text: r.text }
 }
 
+// Solution must pass every test; starter must compile and fail at least one.
+async function checkTests(ex, problems) {
+  const sol = await runTests(ex.solution)
+  if (sol.compile.length) problems.push(`solution does not compile: ${sol.compile.join('; ')}`)
+  else if (!sol.results.length) problems.push(`solution ran no tests (${sol.exception ?? 'no results'})`)
+  else {
+    const bad = sol.results.filter((t) => t.status !== 'OK')
+    if (bad.length) problems.push(`solution fails: ${bad.map((t) => `${t.methodName} (${t.comparisonFailure?.message ?? t.exception?.message})`).join('; ')}`)
+  }
+
+  const st = await runTests(ex.starter)
+  if (st.compile.length) problems.push(`starter does not compile: ${st.compile.join('; ')}`)
+  else if (st.results.length && st.results.every((t) => t.status === 'OK')) problems.push('starter already passes all tests')
+}
+
 const prefixes = process.argv.slice(2)
 const exercises = loadExercises().filter((e) => !prefixes.length || prefixes.some((p) => e.id.startsWith(p)))
 let failed = 0
@@ -46,18 +62,7 @@ const fail = (id, msg) => {
 for (const ex of exercises) {
   const problems = []
   try {
-    const sol = await runTests(ex.solution)
-    if (sol.compile.length) problems.push(`solution does not compile: ${sol.compile.join('; ')}`)
-    else if (!sol.results.length) problems.push(`solution ran no tests (${sol.exception ?? 'no results'})`)
-    else {
-      const bad = sol.results.filter((t) => t.status !== 'OK')
-      if (bad.length) problems.push(`solution fails: ${bad.map((t) => `${t.methodName} (${t.comparisonFailure?.message ?? t.exception?.message})`).join('; ')}`)
-    }
-
-    const st = await runTests(ex.starter)
-    if (st.compile.length) problems.push(`starter does not compile: ${st.compile.join('; ')}`)
-    else if (st.results.length && st.results.every((t) => t.status === 'OK')) problems.push('starter already passes all tests')
-
+    if (!ex.guide) await checkTests(ex, problems)
     for (const [i, code] of ex.runs.entries()) {
       const m = await runMain(code)
       if (m.compile.length || m.exception) problems.push(`run snippet ${i}: ${[...m.compile, m.exception].filter(Boolean).join('; ')}`)
@@ -70,3 +75,4 @@ for (const ex of exercises) {
 }
 console.log(failed ? `\n${failed} problem(s)` : '\nAll exercises verified')
 process.exit(failed ? 1 : 0)
+
