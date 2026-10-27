@@ -2,7 +2,7 @@
 title: val, var and types
 section: Basics
 ---
-Python has one kind of variable. Kotlin has two: `val` (read-only, assigned once) and `var` (reassignable). Prefer `val`: you will see it almost everywhere in real Kotlin code.
+Python has one kind of variable. Kotlin has two: `val` (immutable, assigned once) and `var` (reassignable). Prefer `val`: you will see it almost everywhere in real Kotlin code.
 
 ```python
 name = "Ada"
