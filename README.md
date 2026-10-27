@@ -45,6 +45,10 @@ section: Basics
 Lesson text. A ```python block followed directly by a ```kotlin block is shown side by side.
 A ```kotlin run block (with a `fun main`) becomes a runnable snippet.
 
+```habit
+**A Python habit to unlearn.** Shown as a callout where it appears in the lesson. Inline Markdown only.
+```
+
 ## Your task
 What the learner must do.
 

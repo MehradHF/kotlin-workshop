@@ -30,6 +30,10 @@ fun main() {
 }
 ```
 
+```habit
+**Monkey-patching.** An extension doesn't change the class: it only adds call syntax in code that imports it. It can't replace existing behaviour either. If the class already has a member with the same signature, the member always wins, and the compiler warns *This extension is shadowed by a member*.
+```
+
 ## Your task
 
 Write three extension functions (the signature, including the receiver type, is given):

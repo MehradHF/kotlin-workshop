@@ -41,6 +41,10 @@ fun main() {
 }
 ```
 
+```habit
+**Expecting `map` and `filter` to be lazy.** In Python 3, `map()`, `filter()` and generator expressions are lazy. In Kotlin, `map` and `filter` on a `List` are **eager**: `list.map { ... }.first()` runs the lambda on every element first. Call `asSequence()` when you want the Python behaviour.
+```
+
 ## Your task
 
 1. `fibonacci()` returns the infinite sequence `0, 1, 1, 2, 3, 5, 8, ...` using the `sequence { yield }` builder.

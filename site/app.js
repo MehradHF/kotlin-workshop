@@ -96,6 +96,11 @@ function renderExercise(ex, index) {
   const status = el('div', { className: 'status' })
   const lesson = el('div', { innerHTML: marked.parse(ex.lesson) })
   pairSnippets(lesson)
+  lesson.querySelectorAll('.habit-slot').forEach((slot) => {
+    slot.replaceWith(el('aside', { className: 'habit' },
+      el('div', { className: 'habit-label', textContent: 'Python habit to unlearn' }),
+      el('div', { innerHTML: marked.parse(ex.habits[Number(slot.dataset.habit)]) })))
+  })
   lesson.querySelectorAll('pre code').forEach((c) => hljs.highlightElement(c))
 
   const pending = []

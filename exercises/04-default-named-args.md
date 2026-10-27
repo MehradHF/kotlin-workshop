@@ -27,6 +27,10 @@ fun main() {
 }
 ```
 
+```habit
+**The `None` default trick.** Python evaluates `def f(items=[])` only once, so you learned to write `items=None` and create the list inside the function. Kotlin evaluates defaults on every call, so `fun f(items: MutableList<Int> = mutableListOf())` gets a fresh list each time. Write the real default directly.
+```
+
 ## Your task
 
 1. Implement `greet` with the defaults shown above.

@@ -71,6 +71,12 @@ pre code { background: none; padding: 0; }
 .compare pre.kt::before { content: "Kotlin"; color: var(--accent); }
 @media (max-width: 800px) { .compare { grid-template-columns: 1fr; } body { flex-direction: column; } #sidebar { position: static; width: auto; height: auto; } }
 
+/* "Python habit to unlearn" callout inside a lesson */
+.habit { border-left: 4px solid var(--py); background: #eff6fc; padding: 10px 16px; border-radius: 0 8px 8px 0; margin: 16px 0; }
+.habit-label { font: 600 11px/1 -apple-system, sans-serif; letter-spacing: 0.06em; text-transform: uppercase; color: var(--py); margin-bottom: 6px; }
+.habit p { margin: 0; }
+.habit p + p { margin-top: 8px; }
+
 .task { border-left: 4px solid var(--accent); background: #faf8ff; padding: 4px 16px; border-radius: 0 8px 8px 0; }
 .editor { margin: 16px 0; }
 .status { margin: 12px 0; padding: 10px 14px; border-radius: 8px; font-weight: 600; display: none; }

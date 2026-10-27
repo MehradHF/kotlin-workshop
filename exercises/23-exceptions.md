@@ -43,6 +43,10 @@ fun main() {
 }
 ```
 
+```habit
+**try/except as the normal way to check.** "Easier to ask forgiveness than permission" is idiomatic Python, but in Kotlin exceptions are for real errors. The standard library has a null-returning version for the common cases: `toIntOrNull()`, `getOrNull(i)`, `firstOrNull { }`, and map lookups with `[]`. Handle the `null` with `?:`.
+```
+
 ## Your task
 
 1. `safeDivide(a, b)`: `a / b`, or `null` when `b` is zero. Use `try`/`catch` for `ArithmeticException` as an expression (integer division by zero throws it).

@@ -34,6 +34,10 @@ fun main() {
 }
 ```
 
+```habit
+**Looking for `len()`, `sum()` and `sorted()`.** Python's built-ins are free functions. In Kotlin the same things are called on the value: `xs.size` (collections), `text.length` (strings), `xs.sum()`, `xs.sorted()`. Type `xs.` and let autocomplete show you what exists.
+```
+
 ## Your task
 
 Employees are given again. Implement:

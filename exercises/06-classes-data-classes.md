@@ -56,6 +56,10 @@ fun main() {
 }
 ```
 
+```habit
+**Underscore names and getter methods.** `_balance` is just a name in Kotlin, and nothing stops callers using it. Mark it `private` and the compiler enforces it. Don't write `get_balance()`-style methods either: a `val balance` property already is the getter, and callers read `account.balance`.
+```
+
 ## Your task
 
 1. Finish `Rectangle`: `area` is `width * height`, and `scaled(factor)` returns a **new** `Rectangle` with both sides multiplied.

@@ -52,6 +52,10 @@ class Square : Shape { override val name = "square" }
 fun main() = println(Square().describe())
 ```
 
+```habit
+**Relying on duck typing.** A class with a matching `greet` method is not a `Greeter`: it must say so with `: Greeter` and mark the method `override`. Kotlin interfaces are *nominal*, unlike `Protocol`, which matches on shape. The upside: rename an interface method and the compiler points at every class that no longer matches.
+```
+
 ## Your task
 
 Everything is declared; replace the `TODO()`s.

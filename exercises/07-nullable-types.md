@@ -35,6 +35,10 @@ fun main() {
 }
 ```
 
+```habit
+**Writing `is None`.** In Kotlin `is` checks a *type* (it is `isinstance`, next exercise). Compare with `== null` and `!= null`, and the compiler then treats the value as non-null. Kotlin's identity check, Python's `is`, is `===`, and you will rarely need it: `==` compares values, like Python's `==`.
+```
+
 ## Your task
 
 `Person`, `Address` and their nullable fields are given (classes are covered in the previous exercise).

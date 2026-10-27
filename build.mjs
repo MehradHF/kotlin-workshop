@@ -13,6 +13,8 @@
 //   ```kotlin starter  -> full file given to the learner, editable region between //sampleStart and //sampleEnd
 //   ```kotlin solution -> same file with the region filled in
 //   ```hint            -> one hint per block, revealed one at a time
+//   ```habit           -> "Python habit to unlearn" box, shown where it appears in the lesson (inline markdown only:
+//                         a code fence inside would end the block)
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -25,12 +27,16 @@ export function parseExercise(file) {
   const fm = raw.match(/^---\n([\s\S]*?)\n---\n/)
   if (!fm) throw new Error(`${file}: missing front matter`)
   const meta = Object.fromEntries(
-    fm[1].split('\n').map((l) => [l.slice(0, l.indexOf(':')).trim(), l.slice(l.indexOf(':') + 1).trim()]),
+    fm[1].split('\n').map((l) => [
+      l.slice(0, l.indexOf(':')).trim(),
+      l.slice(l.indexOf(':') + 1).trim().replace(/^"(.*)"$/, '$1'),   // allow YAML-style quoted values
+    ]),
   )
   let body = raw.slice(fm[0].length)
 
   const runs = []
   const hints = []
+  const habits = []
   let starter = null
   let solution = null
   body = body.replace(/^```(\S+)?(?: (\S+))?\n([\s\S]*?)^```$/gm, (all, lang, tag, code) => {
@@ -39,6 +45,9 @@ export function parseExercise(file) {
     else if (lang === 'kotlin' && tag === 'run') {
       runs.push(code.trimEnd() + '\n')
       return `<div class="run-slot" data-run="${runs.length - 1}"></div>`
+    } else if (lang === 'habit') {
+      habits.push(code.trim())
+      return `<div class="habit-slot" data-habit="${habits.length - 1}"></div>`
     } else if (lang === 'hint') hints.push(code.trim())
     else return all
     return ''
@@ -61,6 +70,7 @@ export function parseExercise(file) {
     lesson: lesson.trim(),
     task: task.trim(),
     runs,
+    habits,
     hints,
     starter,
     solution,

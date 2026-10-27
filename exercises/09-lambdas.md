@@ -36,6 +36,10 @@ fun main() {
 }
 ```
 
+```habit
+**`return` inside a lambda.** The lambda's last expression is its result, so you don't need `return`. A bare `return` does something else: inside `forEach { }` or `map { }` it returns from the whole enclosing *function*, and in a lambda stored in a variable it doesn't compile (*'return' is prohibited here*). To leave only the lambda early, use a labelled `return@forEach`.
+```
+
 ## Your task
 
 1. `applyTwice(x, f)` applies `f` to `x` and then to the result again.

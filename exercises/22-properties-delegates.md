@@ -50,6 +50,10 @@ fun main() {
 }
 ```
 
+```habit
+**Setting attributes to `None` in `__init__` and filling them in later.** In Kotlin that makes every use deal with `null`. If the value can be computed on demand, use `by lazy`. If something else (a framework, a test's setup) assigns it before use, use `lateinit var`. Keep nullable types for values that can really be absent.
+```
+
 ## Your task
 
 Two small classes with `TODO()`s:

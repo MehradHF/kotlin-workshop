@@ -46,7 +46,7 @@ git clone https://github.com/MehradHF/kotlin-workshop.git
 
 or [download it as a ZIP](https://github.com/MehradHF/kotlin-workshop/archive/refs/heads/main.zip) and unpack it.
 
-```
+```plaintext
 local-starter/
 ├── build.gradle.kts          like pyproject.toml: plugins, dependencies, settings
 ├── settings.gradle.kts       the project name
@@ -103,7 +103,7 @@ Then run the program itself. Open `Main.kt` and click the green arrow next to `f
 
 You should see:
 
-```
+```plaintext
 Parsed 2 of 3 lines
 Total: 2749 cents
 ```

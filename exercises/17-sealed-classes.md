@@ -44,6 +44,10 @@ fun main() {
 }
 ```
 
+```habit
+**Strings or dicts as "kinds".** Python code often tags variants with `{"type": "circle", "radius": 2}` or a status string like `"pending"`. In Kotlin, make each variant its own class under a sealed type. Each one carries exactly the fields it needs, and the compiler checks every `when`.
+```
+
 ## Your task
 
 The `PaymentMethod` hierarchy is given. Implement:

@@ -34,6 +34,10 @@ fun main() {
 }
 ```
 
+```habit
+**Single quotes for strings.** `'hi'` does not compile (*Too many characters in a character literal*): single quotes make a `Char`, exactly one character. Strings always use double quotes, so `"it's"` needs no escaping.
+```
+
 ## Your task
 
 1. `summary(name, age)` returns `"Ada is 36, next year 37"` style text.

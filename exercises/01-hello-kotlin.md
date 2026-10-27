@@ -23,6 +23,10 @@ def double(x): return x * 2
 fun double(x: Int) = x * 2
 ```
 
+```habit
+**Forgetting `return` in a `{ }` body.** A function with braces returns nothing unless you write `return`: `fun add(a: Int, b: Int): Int { a + b }` fails with *Missing return statement*. Either add `return`, or use the expression form `= a + b`.
+```
+
 Every program starts at `main`, like `if __name__ == "__main__"`. Press the play button to run this one:
 
 ```kotlin run

@@ -38,14 +38,20 @@ fun main() {
 }
 ```
 
-One more difference that surprises Python developers: Python's `int` grows as big as it needs to, but Kotlin's `Int` is **32 bits** and wraps around without any error when a result is too big (about ±2.1 billion). For bigger numbers use `Long` (64 bits). A literal with an `L` suffix is a `Long`, and an `Int` combined with a `Long` gives a `Long`:
+```habit
+**Assuming integers never overflow.** Python's `int` grows as big as it needs to. Kotlin's `Int` is **32 bits** and silently wraps around past about ±2.1 billion, with no error. Use `Long` (64 bits) for money in cents, millisecond timestamps, file sizes and IDs.
+```
+
+Convert with `toLong()`, or write a literal with an `L` suffix (`1000L`). An `Int` combined with a `Long` gives a `Long`:
 
 ```python
-big = 2_000_000_000 * 2     # 4000000000
+n = 2_000_000_000
+n * 2              # 4000000000
 ```
 ```kotlin
-val wrong = 2_000_000_000 * 2      // -294967296, silently!
-val right = 2_000_000_000L * 2     // 4000000000
+val n = 2_000_000_000
+n * 2              // -294967296 (!)
+n.toLong() * 2     // 4000000000
 ```
 
 ```kotlin run
@@ -57,8 +63,6 @@ fun main() {
     println(seconds * 1000L)        // 3000000000
 }
 ```
-
-Money in cents, millisecond timestamps, file sizes and IDs are the usual places where `Int` is too small.
 
 ## Your task
 

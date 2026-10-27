@@ -37,7 +37,11 @@ fun main() {
 }
 ```
 
-Conditions must be real `Boolean`s. Python's **truthiness** does not exist: an empty list, `0`, `""` and `null` are not "false", and `if (items)` does not compile. Say what you mean:
+```habit
+**Truthiness.** Conditions must be real `Boolean`s. An empty list, `0`, `""` and `null` are not "false", and `if (items)` fails with *Condition type mismatch*. Say what you mean instead.
+```
+
+The explicit versions:
 
 ```python
 if items: ...
@@ -46,11 +50,11 @@ if user: ...
 ```
 ```kotlin
 if (items.isNotEmpty()) ...
-if (name.isEmpty()) ...       // or isBlank() to also treat "  " as empty
+if (name.isEmpty()) ...
 if (user != null) ...
 ```
 
-For a value that may be `null` or empty, `isNullOrEmpty()` and `isNullOrBlank()` cover both checks in one call (nullable types come in a later exercise).
+`isBlank()` also treats a string of only spaces as empty. For a value that may be `null` or empty, `isNullOrEmpty()` and `isNullOrBlank()` cover both checks in one call (nullable types come in a later exercise).
 
 ## Your task
 

@@ -34,6 +34,10 @@ fun main() {
 }
 ```
 
+```habit
+**`for i in range(len(xs))`.** Loop over the elements directly (`for (x in xs)`), or use `withIndex()` when you need the index too. If you really want only the indices, `xs.indices` is the safe spelling of `0 until xs.size`.
+```
+
 ## Your task
 
 1. `fizzBuzz(n)`: a list for `1..n`: `"FizzBuzz"` for multiples of 15, `"Fizz"` for multiples of 3, `"Buzz"` for multiples of 5, otherwise the number as a string. Loop with a range and use `when`.

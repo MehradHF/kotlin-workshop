@@ -36,6 +36,10 @@ fun main() {
 }
 ```
 
+```habit
+**Thinking `val` makes the contents immutable.** `val items = mutableListOf(1)` still allows `items.add(2)`: `val` only stops the *variable* from pointing at another list. Whether the collection itself can change comes from its type, `List` versus `MutableList`, a bit like `tuple` versus `list`.
+```
+
 ## Your task
 
 1. `wordCounts(words)` counts how many times each word occurs (like `collections.Counter`). Use a `mutableMapOf<String, Int>()`, a `for` loop and `?: 0`. (We will meet a one-liner for this later.)

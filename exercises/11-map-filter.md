@@ -31,6 +31,10 @@ fun main() {
 }
 ```
 
+```habit
+**Translating a comprehension into a loop.** The literal translation, a `mutableListOf()` filled by a `for` loop with `if` and `add(...)`, compiles but isn't idiomatic. Kotlin reviewers expect the `filter { }.map { }` chain. Write a loop only when the logic doesn't fit a pipeline.
+```
+
 ## Your task
 
 1. `evenSquares(nums)`: the squares of the even numbers, in the original order.

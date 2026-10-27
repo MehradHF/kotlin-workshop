@@ -35,6 +35,10 @@ fun main() {
 }
 ```
 
+```habit
+**Negating a sort key to reverse it.** `(e.dept, -e.salary)` translates directly for numbers, but you can't negate a string. Build the comparator instead: `compareBy<Employee> { it.dept }.thenByDescending { it.name }`. It reads better, too.
+```
+
 ## Your task
 
 1. `topEarner(es)`: the employee with the highest salary, or `null` if the list is empty.

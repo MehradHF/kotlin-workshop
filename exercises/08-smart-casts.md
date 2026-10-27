@@ -35,6 +35,10 @@ fun main() {
 }
 ```
 
+```habit
+**Accepting anything and checking types at runtime.** A Python function often takes whatever it is given and inspects it with `isinstance`. In Kotlin, declare the type you actually need (`String`, `List<Int>`, an interface) and let the compiler reject wrong calls. `Any` plus `is` checks is for the rare input that really is mixed, such as parsed JSON.
+```
+
 ## Your task
 
 Implement `describe(x)`:

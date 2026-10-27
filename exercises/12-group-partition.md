@@ -38,6 +38,10 @@ fun main() {
 }
 ```
 
+```habit
+**`setdefault` and `if key not in d`.** When you really do need to fill a mutable map step by step, `map.getOrPut(key) { mutableListOf() }.add(item)` is the `setdefault` / `defaultdict` idiom. But first check whether `groupBy` or `associate` builds the whole map in one go.
+```
+
 ## Your task
 
 The `Employee` data class and a `staff` list are given at the top. Implement:
