@@ -1,6 +1,7 @@
 ---
 title: Sealed classes and exhaustive when
 section: Modelling data
+hidden: true
 ---
 A `sealed` type has a **closed set of subtypes**, all known at compile time. It is like a Python `Union[Circle, Rect]` or an enum whose cases carry different data. The payoff: a `when` over it needs no `else`, and if you add a new case later the compiler points at every `when` you forgot to update.
 

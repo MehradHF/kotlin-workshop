@@ -1,12 +1,12 @@
 # Kotlin for Python developers: self-paced workshop
 
-Part 1 of a Kotlin + Spring Boot workshop. 25 short exercises in the browser, each with a lesson that puts
+Part 1 of a Kotlin + Spring Boot workshop. 24 short exercises in the browser, each with a lesson that puts
 Python and Kotlin side by side, then a task with automated tests. Code runs on JetBrains' public Kotlin
 Playground servers, so there is nothing to install.
 
 Topics follow the order of Kotlin Koans, but every lesson and exercise here is original and framed for
 people who already know Python: basics, classes and data classes, null safety, lambdas, collections,
-sealed classes, extension functions, scope functions, lambdas with receiver (builders and DSLs), exceptions,
+extension functions, scope functions, lambdas with receiver (builders and DSLs), exceptions,
 generics, operators, and a small order-processing capstone.
 
 ## Run it
@@ -60,7 +60,8 @@ Only the code between `//sampleStart` and `//sampleEnd` is editable.
 
 To take an exercise out of the site without deleting it, add `hidden: true` to its front matter and run
 `npm run build`. It stays in `exercises/` and `npm run verify` still checks it. Remove the line to bring it back.
-Currently hidden: `22-properties-delegates` (`lazy` and `lateinit`).
+Currently hidden: `17-sealed-classes` (sealed classes and exhaustive `when`) and `22-properties-delegates`
+(`lazy` and `lateinit`).
 
 ```bash
 npm run build        # exercises/*.md -> site/exercises.js (commit the result)
